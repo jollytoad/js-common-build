@@ -2,25 +2,33 @@ This is a common JavaScript build system based on the jQuery's build system.
 
 Features:
 
-* Checking of js files using jslint.
-* Concatenation of modules into a single file.
-* String substitution of @VERSION (from version.txt) and @DATE.
-* Minification using YUICompressor.
-* [TODO: Optional/plugin modules]
+	* Checking of js files using jslint.
+	* Concatenation of modules into a single file.
+	* String substitution of @VERSION (from version.txt) and @DATE.
+	* Minification using YUICompressor.
+	* [TODO: Optional/plugin modules]
+
 
 Requirements:
 
-* Make
-* GNU/Posix like environment (echo, cat, sed, mkdir, rm, etc.)
-* Java - for jslint & YUICompressor
-* Rhino - for jslint
+	* Make
+	* GNU/Posix like environment (echo, cat, sed, mkdir, rm, etc.)
+	* Java - for jslint & YUICompressor
+	* Rhino - for jslint
 
-How to use it:
 
-* Import this whole directory to a sub-dir of your project.
-* Create a version.txt file containing the version number of the project
-  - but ensure it doesn't contain a line-break at the end.
-* Create a Makefile based on the following example:
+Adding it to your project:
+
+	* Import this whole directory to a sub-dir of your project.
+
+		If you are using git, just cd into your project dir and do:
+
+		$ git submodule add git://github.com/jollytoad/js-common-build.git build
+
+	* Create a version.txt file containing the version number of the project
+		NOTE: ensure the file doesn't end with a line-break.
+
+	* Create a Makefile based on the following example:
 
 ----[SNIP]----
 PACKAGE = jquery-color
@@ -38,24 +46,32 @@ MODULES = ${SRC_DIR}/color.core.js\
 include ${BUILD_DIR}/rules.mk
 ----[SNIP]----
 
-* Set the PACKAGE variable to an appropriate name.
-* Set SRC_DIR to wherever your modules are, eg: . or src
-* Set BUILD_DIR to wherever you imported this build system.
-* Set DIST_DIR to a non-existent directory that will hold the generated files.
-* Set MODULES to include the files you want to concatenate.
+	* Set the PACKAGE variable to an appropriate name.
+	* Set SRC_DIR to wherever your modules are, eg: . or src
+	* Set BUILD_DIR to wherever you imported this build system.
+	* Set DIST_DIR to a non-existent directory that will hold the generated files.
+	* Set MODULES to include the files you want to concatenate.
 
-To jslint and build everything use:
 
-	make
+Usage:
 
-Common make targets are:
+	To jslint and build everything use:
 
-	jslint - to run jslint over all MODULES
-	concat - concatenate MODULES and perform string substitutions, creates PACKAGE.js
-	minify - minify the package using YUICompressor, creates PACKAGE.min.js
-	clean  - remove the DIST_DIR
+		$ make
 
-Example, to jslint and build without minifying:
+	Common make targets are:
 
-	make jslint concat
+		jslint - to run jslint over all MODULES
+		concat - concatenate MODULES and perform string substitutions, creates PACKAGE.js
+		minify - minify the package using YUICompressor, creates PACKAGE.min.js
+		clean  - remove the DIST_DIR
+
+	Example, to jslint and build without minifying:
+
+		$ make jslint concat
+
+
+This project can be found on github:
+
+	http://github.com/jollytoad/js-common-build
 
