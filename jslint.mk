@@ -16,5 +16,5 @@ ${JSLINT_JS}:
 
 clean-jslint:
 	@@echo "Removing JSLint"
-	@@rm ${JSLINT_JS}
+	@@rm -f ${JSLINT_JS}
 
