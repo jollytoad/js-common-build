@@ -1,5 +1,5 @@
 // rhino.js
-// 2007-02-19
+// 2009-03-25
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com) Rhino Edition
 */
@@ -7,6 +7,7 @@ Copyright (c) 2002 Douglas Crockford  (www.JSLint.com) Rhino Edition
 // This is the Rhino companion to fulljslint.js.
 
 /*extern JSLINT */
+/*jslint rhino: true*/
 
 (function (a) {
     if (!a[0]) {
@@ -29,8 +30,9 @@ Copyright (c) 2002 Douglas Crockford  (www.JSLint.com) Rhino Edition
                 print('');
             }
         }
+        quit(2);
     } else {
         print("jslint: No problems found in " + a[0]);
         quit();
     }
-})(arguments);
+}(arguments));
