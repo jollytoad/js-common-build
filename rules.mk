@@ -1,34 +1,52 @@
 
-OUT = ${DIST_DIR}/${PACKAGE}.js
-OUT_MIN = ${DIST_DIR}/${PACKAGE}.min.js
+ifndef BUILD_DIR
+ BUILD_DIR = build
+endif
 
-VERSION = `cat version.txt`
-TODAY = `date +%Y%m%d`
+ifndef SRC_DIR
+ SRC_DIR = src
+endif
+
+ifndef DIST_DIR
+ DIST_DIR = dist
+endif
+
+CONCAT = ${DIST_DIR}/${PACKAGE}.js
+
+JS_CAT = $(addprefix ${SRC_DIR}/,${MODULES})
+JS_OPT = $(addprefix ${SRC_DIR}/,${OPTIONAL_MODULES})
+JS_ALL = ${JS_CAT} ${JS_OPT}
+
+VERSION := `cat version.txt`
+TODAY := `date +%Y%m%d`
 SUB = sed "s/@VERSION/${VERSION}/g; s/@DATE/${TODAY}/g"
 
-all: jslint concat minify
+all: jslint concat opts extras minify
 	@@echo ${PACKAGE} "build complete."
 
 include ${BUILD_DIR}/jslint.mk
 include ${BUILD_DIR}/minify.mk
 
-concat: ${OUT}
+concat: ${CONCAT}
 
-minify: ${OUT_MIN}
+opts: ${DIST_DIR} ${JS_OPT}
+	@@echo "Copying optional modules"
+	@@for f in ${OPTIONAL_MODULES} ; do \
+		cat ${SRC_DIR}/$$f | ${SUB} > ${DIST_DIR}/$$f ; done
+
+extras: ${DIST_DIR} ${EXTRAS}
+	@@echo "Copying extra files"
+	@@cp -a ${EXTRAS} ${DIST_DIR}
 
 ${DIST_DIR}:
-	@@echo "Creating Distribution directory:" ${DIST_DIR}
+	@@echo "Creating distribution directory:" ${DIST_DIR}
 	@@mkdir -p ${DIST_DIR}
 
-${OUT}: ${DIST_DIR} ${MODULES}
-	@@echo "Building" ${OUT}
-	@@cat ${MODULES} | ${SUB} > ${OUT}
-
-${OUT_MIN}: ${DIST_DIR} ${OUT}
-	@@echo "Minifying" ${OUT}
-	@@${MINIFY} -o ${OUT_MIN} ${OUT}
+${CONCAT}: ${DIST_DIR} ${JS_CAT}
+	@@echo "Building" ${CONCAT}
+	@@cat ${JS_CAT} | ${SUB} > ${CONCAT}
 
 clean:
-	@@echo "Removing Distribution directory:" ${DIST_DIR}
+	@@echo "Removing distribution directory:" ${DIST_DIR}
 	@@rm -rf ${DIST_DIR}
 

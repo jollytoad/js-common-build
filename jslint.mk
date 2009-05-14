@@ -6,9 +6,9 @@ JSLINT_RHINO_JS = ${JSLINT_DIR}/rhino.js
 
 RHINO = rhino
 
-jslint: ${JSLINT_JS} ${MODULES}
+jslint: ${JSLINT_JS} ${JS_ALL}
 	@@echo "Checking files with JSLint"
-	@@${RHINO} ${JSLINT_JS} ${MODULES}
+	@@${RHINO} ${JSLINT_JS} ${JS_ALL}
 
 ${JSLINT_JS}:
 	@@echo "Building JSLint"

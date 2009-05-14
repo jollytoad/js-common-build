@@ -6,7 +6,8 @@ Features:
 	* Concatenation of modules into a single file.
 	* String substitution of @VERSION (from version.txt) and @DATE.
 	* Minification using YUICompressor.
-	* [TODO: Optional/plugin modules]
+	* Copy/sub optional modules into dist.
+	* Copy extra files into dist.
 
 
 Requirements:
@@ -31,26 +32,31 @@ Adding it to your project:
 	* Create a Makefile based on the following example:
 
 ----[SNIP]----
-PACKAGE = jquery-color
+PACKAGE = jquery-roles
 
-SRC_DIR = src
-BUILD_DIR = build
-DIST_DIR = dist
+MODULES = \
+	roles.core.js\
+	roles.keys.js\
+	roles.aria.js\
+	roles.tablist.js\
+	roles.tree.js
 
-MODULES = ${SRC_DIR}/color.core.js\
-	${SRC_DIR}/color.rgb.js\
-	${SRC_DIR}/color.object.js\
-	${SRC_DIR}/color.parse.js\
-	${SRC_DIR}/color.palette.css3.js
+OPTIONAL_MODULES = \
+	roles.ie6-css.js \
+	roles.ui-css.js
 
-include ${BUILD_DIR}/rules.mk
+EXTRAS = \
+	theme
+
+include build/rules.mk
 ----[SNIP]----
 
-	* Set the PACKAGE variable to an appropriate name.
-	* Set SRC_DIR to wherever your modules are, eg: . or src
-	* Set BUILD_DIR to wherever you imported this build system.
-	* Set DIST_DIR to a non-existent directory that will hold the generated files.
-	* Set MODULES to include the files you want to concatenate.
+Optional variables:
+
+	* SRC_DIR - the source directory (default: src)
+	* BUILD_DIR - the build system dir (default: build)
+	* DIST_DIR - the distribution dir - where everything ends up (default: dist)
+	* MIN_DIR - where to put minified files (default: ${DIST_DIR}/min)
 
 
 Usage:
@@ -61,12 +67,14 @@ Usage:
 
 	Common make targets are:
 
-		jslint - to run jslint over all MODULES
-		concat - concatenate MODULES and perform string substitutions, creates PACKAGE.js
-		minify - minify the package using YUICompressor, creates PACKAGE.min.js
+		jslint - to run jslint over all MODULES and OPTIONAL_MODULES
+		concat - concatenate MODULES and perform string substitutions, creates DIST_DIR/PACKAGE.js
+		opts   - copy OPTIONAL_MODULES into DIST_DIR, performing substitutions
+		extras - copies EXTRAS into DIST_DIR
+		minify - minify the JS files using YUICompressor, into MIN_DIR
 		clean  - remove the DIST_DIR
 
-	Example, to jslint and build without minifying:
+	Example, to jslint and concatenate the main package without minifying:
 
 		$ make jslint concat
 
