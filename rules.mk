@@ -1,9 +1,4 @@
 
-PREFIX = .
-DOCS_DIR = ${PREFIX}/docs
-TEST_DIR = ${PREFIX}/test
-DIST_DIR = ${PREFIX}/dist
-
 OUT = ${DIST_DIR}/${PACKAGE}.js
 OUT_MIN = ${DIST_DIR}/${PACKAGE}.min.js
 
