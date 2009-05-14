@@ -29,14 +29,22 @@ include ${BUILD_DIR}/minify.mk
 
 concat: ${CONCAT}
 
+ifdef ${OPTIONAL_MODULES}
 opts: ${DIST_DIR} ${JS_OPT}
 	@@echo "Copying optional modules"
 	@@for f in ${OPTIONAL_MODULES} ; do \
 		cat ${SRC_DIR}/$$f | ${SUB} > ${DIST_DIR}/$$f ; done
+else
+opts:
+endif
 
+ifdef ${EXTRAS}
 extras: ${DIST_DIR} ${EXTRAS}
 	@@echo "Copying extra files"
 	@@cp -a ${EXTRAS} ${DIST_DIR}
+else
+extras:
+endif
 
 ${DIST_DIR}:
 	@@echo "Creating distribution directory:" ${DIST_DIR}
