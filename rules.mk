@@ -11,6 +11,10 @@ ifndef DIST_DIR
  DIST_DIR = dist
 endif
 
+ifndef COMMENT
+ COMMENT = Build-@VERSION-@DATE
+endif
+
 CONCAT = ${DIST_DIR}/${PACKAGE}.js
 
 JS_CAT = $(addprefix ${SRC_DIR}/,${MODULES})
@@ -52,7 +56,7 @@ ${DIST_DIR}:
 
 ${CONCAT}: ${DIST_DIR} ${JS_CAT}
 	@@echo "Building" ${CONCAT}
-	@@cat ${JS_CAT} | ${SUB} > ${CONCAT}
+	@@echo "/*! ${COMMENT}: ${MODULES} */" | cat - ${JS_CAT} | ${SUB} > ${CONCAT}
 
 clean:
 	@@echo "Removing distribution directory:" ${DIST_DIR}

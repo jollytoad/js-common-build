@@ -57,6 +57,9 @@ Optional variables:
 	* BUILD_DIR - the build system dir (default: build)
 	* DIST_DIR - the distribution dir - where everything ends up (default: dist)
 	* MIN_DIR - where to put minified files (default: ${DIST_DIR}/min)
+	* OPTIONAL_MODULES, EXTRAS - these can be removed if there are none
+	* COMMENT - a short comment added to the top of concatenated file,
+	            prefixing the list of module names:  /*! COMMENT: MODULES */
 
 
 Usage:
