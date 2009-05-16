@@ -1,7 +1,5 @@
 
-ifndef MIN_DIR
- MIN_DIR = ${DIST_DIR}/min
-endif
+MIN_DIR ?= ${DIST_DIR}/min
 
 MINIFY = java -jar ${BUILD_DIR}/yuicompressor-2.4.2.jar
 

@@ -1,19 +1,9 @@
 
-ifndef BUILD_DIR
- BUILD_DIR = build
-endif
-
-ifndef SRC_DIR
- SRC_DIR = src
-endif
-
-ifndef DIST_DIR
- DIST_DIR = dist
-endif
-
-ifndef COMMENT
- COMMENT = Build-@VERSION-@DATE
-endif
+BUILD_DIR ?= build
+SRC_DIR ?= src
+DIST_DIR ?= dist
+COMMENT ?= Build-@VERSION-@DATE
+MODE_FILE ?= mode
 
 CONCAT = ${DIST_DIR}/${PACKAGE}.js
 
@@ -21,9 +11,14 @@ JS_CAT = $(addprefix ${SRC_DIR}/,${MODULES})
 JS_OPT = $(addprefix ${SRC_DIR}/,${OPTIONAL_MODULES})
 JS_ALL = ${JS_CAT} ${JS_OPT}
 
-VERSION := `cat version.txt`
-TODAY := `date +%Y%m%d`
+VERSION ?= `cat version.txt`
+TODAY ?= `date +%Y%m%d`
 SUB = sed "s/@VERSION/${VERSION}/g; s/@DATE/${TODAY}/g"
+
+# Todo: set MODE_GREP to cat if MODE_FILE doesn't exist
+MODE_GREP = grep -Fvf ${MODE_FILE}
+MODES = `cat ${MODE_FILE}`
+
 
 all: jslint concat opts extras minify
 	@@echo ${PACKAGE} "build complete."
@@ -34,10 +29,11 @@ include ${BUILD_DIR}/minify.mk
 concat: ${CONCAT}
 
 ifdef OPTIONAL_MODULES
-opts: ${JS_OPT} ${DIST_DIR}
+opts: ${DIST_DIR} ${MODE_FILE} ${JS_OPT}
 	@@echo "Copying optional modules"
+	@@echo "Build modes:" ${MODES}
 	@@for f in ${OPTIONAL_MODULES} ; do \
-		cat ${SRC_DIR}/$$f | ${SUB} > ${DIST_DIR}/$$f ; done
+		cat ${SRC_DIR}/$$f | ${MODE_GREP} | ${SUB} > ${DIST_DIR}/$$f ; done
 else
 opts:
 endif
@@ -54,9 +50,13 @@ ${DIST_DIR}:
 	@@echo "Creating distribution directory:" ${DIST_DIR}
 	@@mkdir -p ${DIST_DIR}
 
-${CONCAT}: ${DIST_DIR} ${JS_CAT}
+${CONCAT}: ${DIST_DIR} ${MODE_FILE} ${JS_CAT}
 	@@echo "Building" ${CONCAT}
-	@@echo "/*! ${COMMENT}: ${MODULES} */" | cat - ${JS_CAT} | ${SUB} > ${CONCAT}
+	@@echo "Build modes:" ${MODES}
+	@@echo "/*! ${COMMENT}: ${MODULES} */" | cat - ${JS_CAT} | ${MODE_GREP} | ${SUB} > ${CONCAT}
+
+${MODE_FILE}:
+	@@touch ${MODE_FILE}
 
 clean:
 	@@echo "Removing distribution directory:" ${DIST_DIR}
