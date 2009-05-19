@@ -1,4 +1,10 @@
-This is a common JavaScript build system based on the jQuery's build system.
+This is a common JavaScript build system based on jQuery's build system.
+
+
+Code: http://github.com/jollytoad/js-common-build
+
+Docs: http://www.adaptavist.com/display/free/JavaScript+Build+System
+
 
 Features:
 
@@ -6,83 +12,22 @@ Features:
 	* Concatenation of modules into a single file.
 	* String substitution of @VERSION (from version.txt) and @DATE.
 	* Minification using YUICompressor.
-	* Copy/sub optional modules into dist.
+	* Copy optional modules into dist (including string substitution).
 	* Copy extra files into dist.
+	* Conditional Comments.
 
+----
 
-Requirements:
+Quick ref for git import:
+(Please read docs before doing this)
 
-	* Make
-	* GNU/Posix like environment (echo, cat, sed, mkdir, rm, etc.)
-	* Java - for jslint & YUICompressor
-	* Rhino - for jslint
+$ git submodule add git://github.com/jollytoad/js-common-build.git build
 
+----
 
-Adding it to your project:
+jslint is Copyright (c) 2002 Douglas Crockford
+see jslint/fulljslint.js for full details
 
-	* Import this whole directory to a sub-dir of your project.
-
-		If you are using git, just cd into your project dir and do:
-
-		$ git submodule add git://github.com/jollytoad/js-common-build.git build
-
-	* Create a version.txt file containing the version number of the project
-		NOTE: ensure the file doesn't end with a line-break.
-
-	* Create a Makefile based on the following example:
-
-----[SNIP]----
-PACKAGE = jquery-roles
-
-MODULES = \
-	roles.core.js\
-	roles.keys.js\
-	roles.aria.js\
-	roles.tablist.js\
-	roles.tree.js
-
-OPTIONAL_MODULES = \
-	roles.ie6-css.js \
-	roles.ui-css.js
-
-EXTRAS = \
-	theme
-
-include build/rules.mk
-----[SNIP]----
-
-Optional variables:
-
-	* SRC_DIR - the source directory (default: src)
-	* BUILD_DIR - the build system dir (default: build)
-	* DIST_DIR - the distribution dir - where everything ends up (default: dist)
-	* MIN_DIR - where to put minified files (default: ${DIST_DIR}/min)
-	* OPTIONAL_MODULES, EXTRAS - these can be removed if there are none
-	* COMMENT - a short comment added to the top of concatenated file,
-	            prefixing the list of module names:  /*! COMMENT: MODULES */
-
-
-Usage:
-
-	To jslint and build everything use:
-
-		$ make
-
-	Common make targets are:
-
-		jslint - to run jslint over all MODULES and OPTIONAL_MODULES
-		concat - concatenate MODULES and perform string substitutions, creates DIST_DIR/PACKAGE.js
-		opts   - copy OPTIONAL_MODULES into DIST_DIR, performing substitutions
-		extras - copies EXTRAS into DIST_DIR
-		minify - minify the JS files using YUICompressor, into MIN_DIR
-		clean  - remove the DIST_DIR
-
-	Example, to jslint and concatenate the main package without minifying:
-
-		$ make jslint concat
-
-
-This project can be found on github:
-
-	http://github.com/jollytoad/js-common-build
+YUICompressor is Copyright (c) 2009, Yahoo! Inc.
+see http://developer.yahoo.com/yui/compressor/ for full details
 
