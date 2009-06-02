@@ -19,9 +19,10 @@ SUB = sed "s/@VERSION/${VERSION}/g; s/@DATE/${TODAY}/g"
 MODE_GREP = grep -Fvf ${MODE_FILE}
 MODES = `cat ${MODE_FILE}`
 
-
-all: jslint concat opts extras minify
+all: jslint build minify
 	@@echo ${PACKAGE} "build complete."
+
+build: concat opts extras
 
 include ${BUILD_DIR}/jslint.mk
 include ${BUILD_DIR}/minify.mk
