@@ -12,7 +12,7 @@ ${MIN_DIR}:
 	@@echo "Creating minify directory:" ${MIN_DIR}
 	@@mkdir -p ${MIN_DIR}
 
-${MIN_OUT}: concat opts ${MIN_DIR}
+${MIN_OUT}: js optjs ${MIN_DIR}
 	@@echo "Minifying" $@
 	@@${MINIFY} -o $@ $(addprefix ${DIST_DIR}/,$(notdir $(patsubst %.min.js,%.js,$@)))
 
