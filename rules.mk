@@ -24,9 +24,9 @@ include ${BUILD_DIR}/jslint.mk
 include ${BUILD_DIR}/minify.mk
 
 ifdef EXTRAS
-extras: ${EXTRAS} ${DIST_DIR}
+extras: ${EXTRAS} ${DIST_DIR}/${EXTRAS}
 	@@echo "Copying extra files"
-	@@cp -a ${EXTRAS} ${DIST_DIR}
+	@@cp -a ${EXTRAS}/[!.]* ${DIST_DIR}/${EXTRAS}
 else
 extras:
 endif
