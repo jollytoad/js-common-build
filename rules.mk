@@ -19,7 +19,14 @@ all: jslint build minify
 build: js optjs extras css optcss
 
 include ${BUILD_DIR}/js.mk
+
+ifdef CSS
 include ${BUILD_DIR}/css.mk
+else
+css:
+optcss:
+endif
+
 include ${BUILD_DIR}/jslint.mk
 include ${BUILD_DIR}/minify.mk
 
