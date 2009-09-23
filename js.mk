@@ -18,7 +18,7 @@ optjs:
 endif
 
 ${JS_CONCAT}: ${DIST_DIR} ${MODE_FILE} ${JS_CAT}
-	@@echo "Building" ${CONCAT}
+	@@echo "Building" ${JS_CONCAT}
 	@@echo "Build modes:" ${MODES}
 	@@echo "/*! ${COMMENT}: ${MODULES} */" | cat - ${JS_CAT} | ${MODE_GREP} | ${SUB} > ${JS_CONCAT}
 

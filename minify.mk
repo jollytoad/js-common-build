@@ -3,7 +3,7 @@ MIN_DIR ?= ${DIST_DIR}/min
 
 MINIFY = java -jar ${BUILD_DIR}/yuicompressor-2.4.2.jar
 
-MIN_FILES = $(notdir ${CONCAT}) ${OPTIONAL_MODULES}
+MIN_FILES = $(notdir ${JS_CONCAT}) ${OPTIONAL_MODULES}
 MIN_OUT = $(addprefix ${MIN_DIR}/,$(patsubst %.js,%.min.js,${MIN_FILES}))
 
 minify: ${MIN_OUT}
