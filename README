@@ -3,16 +3,16 @@ This is a common JavaScript build system based on jQuery's build system.
 
 Code: http://github.com/jollytoad/js-common-build
 
-Docs: http://www.adaptavist.com/display/free/JavaScript+Build+System
+Docs: http://www.adaptavist.com/display/jQuery/Build+System
 
 
 Features:
 
-	* Checking of js files using jslint.
-	* Concatenation of modules into a single file.
+	* Checking of JavaScript files using jslint.
+	* Concatenation of JavaScript and CSS modules.
 	* String substitution of @VERSION (from version.txt) and @DATE.
 	* Minification using YUICompressor.
-	* Copy optional modules into dist (including string substitution).
+	* Copy optional JS/CSS modules into dist (including string substitution).
 	* Copy extra files into dist.
 	* Conditional Comments.
 
