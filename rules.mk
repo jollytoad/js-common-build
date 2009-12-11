@@ -2,7 +2,7 @@
 BUILD_DIR ?= build
 SRC_DIR ?= src
 DIST_DIR ?= dist
-COMMENT ?= Build-@VERSION-@DATE
+COMMENT ?= Build-@VERSION
 MODE_FILE ?= mode
 
 VERSION ?= `cat version.txt`
